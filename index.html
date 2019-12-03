@@ -1,0 +1,1147 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="author" content="jiang.huizhong@chinapay.com" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=0.5,user-scalable=0" name="viewport" />
+<title>反洗钱宣传活动</title>
+
+<link href="skin/index.css" rel="stylesheet">
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="skin/index.js"></script>
+<script type="text/javascript">
+
+
+    var questJson = "{\"body\":{\"respCode\":\"0000\",\"sex\":\"0\",\"questsList\":[{\"content\":\"A|长江&B|黄河&C|渭河&D|湄公河&\",\"title\":\"中国最长的河3\",\"no\":1,\"replyAnswer\":\"\",\"score\":\"\",\"answer\":\"A\",\"type\":\"0\",\"question_id\":10},{\"content\":\"A|长江&B|黄河&C|渭河&D|湄公河&\",\"title\":\"中国最长的河4\",\"no\":2,\"replyAnswer\":\"\",\"score\":\"\",\"answer\":\"A\",\"type\":\"0\",\"question_id\":13},{\"content\":\"A|个人姓名&B|个人身份证号&C|个人工作单位地址&D|个人证件有效期&\",\"title\":\"以下哪项不属于B类个人金融信息1\",\"no\":3,\"replyAnswer\":\"\",\"score\":\"\",\"answer\":\"D\",\"type\":\"0\",\"question_id\":5},{\"content\":\"A|个人姓名&B|个人身份证号&C|个人工作单位地址&D|个人证件有效期&\",\"title\":\"以下哪项不属于B类个人金融信息4\",\"no\":4,\"replyAnswer\":\"\",\"score\":\"\",\"answer\":\"D\",\"type\":\"0\",\"question_id\":14},{\"content\":\"A|个人姓名&B|个人身份证号&C|个人工作单位地址&D|个人证件有效期&\",\"title\":\"以下哪项不属于B类个人金融信息2\",\"no\":5,\"replyAnswer\":\"\",\"score\":\"\",\"answer\":\"D\",\"type\":\"0\",\"question_id\":8},{\"content\":\"A|按照产品方案指定需求&B|按需求完成任务&C|制定产品方案&D|以上都是&\",\"title\":\"以下哪项不是技术部门的职责4\",\"no\":6,\"replyAnswer\":\"\",\"score\":\"\",\"answer\":\"A|B\",\"type\":\"1\",\"question_id\":19},{\"content\":\"A|按照产品方案指定需求&B|按需求完成任务&C|制定产品方案&D|以上都是&\",\"title\":\"以下哪项不是技术部门的职责4\",\"no\":7,\"replyAnswer\":\"\",\"score\":\"\",\"answer\":\"A|B\",\"type\":\"1\",\"question_id\":20},{\"content\":\"A|按照产品方案指定需求&B|按需求完成任务&C|制定产品方案&D|以上都是&\",\"title\":\"以下哪项不是技术部门的职责4\",\"no\":8,\"replyAnswer\":\"\",\"score\":\"\",\"answer\":\"A|B\",\"type\":\"1\",\"question_id\":18},{\"content\":\"0|错&1|对&\",\"title\":\"对于需要个人信息的平台,应该谨慎提交个人信息1\",\"no\":9,\"replyAnswer\":\"\",\"score\":\"\",\"answer\":\"1\",\"type\":\"2\",\"question_id\":6},{\"content\":\"0|错&1|对&\",\"title\":\"对于需要个人信息的平台,应该谨慎提交个人信息3\",\"no\":10,\"replyAnswer\":\"\",\"score\":\"\",\"answer\":\"1\",\"type\":\"2\",\"question_id\":12}],\"age\":\"20岁以下(不含20岁)\",\"respMsg\":\"sucess\",\"job\":\"工程师\",\"test_id\":12,\"mobile_no\":\"18393910689\"},\"header\":{\"encoding\":\"UTF-8\",\"signature\":\"\"}}";
+	var scoreJson = "{\"body\":{\"respCode\":\"0000\",\"sex\":\"0\",\"age\":\"20岁以下(不含20岁)\",\"score\":10,\"respMsg\":\"sucess\",\"job\":\"工程师\",\"mobile_no\":\"18393910681\"},\"header\":{\"encoding\":\"UTF-8\",\"signature\":\"\"}}";
+    //预加载页面 .
+	$(document).ready(function() {
+		/* getJobList(); */
+		$("#log").show();
+		$("#rule").hide();
+		$("#collectInfoDiv").hide();
+		$("#answerDiv").hide();
+	})
+	function collectInfo1() {
+		$("#otherbox").show();
+		$("#collectInfoDiv").hide();
+	}
+	//信息采集页面提交参与人员信息 .
+	function collectInfo() {
+		var mobile_no = $("#mobile_no").val();
+		var sex = $("#sex").val();
+		var age = $("#age").val();
+		var job = $("#job").val();
+		
+		var logFlag = "true";
+		logFlag = valitLogin(mobile_no,age,logFlag);
+		if("false" == ""+logFlag){
+			alert("手机号必须填写，请填写正确的信息!");
+			return;
+		}
+
+		var header = {};
+		header.encoding = "UTF-8";
+		header.signature = "";
+		var body = {};
+		body.mobile_no = mobile_no;
+		body.sex = sex;
+		body.age = age;
+		body.job = job;
+		body.ReqTime = getNowTime();
+		var header1 = JSON.stringify(header);
+		var body1 = JSON.stringify(body);
+		/* $.ajax({
+					type : "post",
+					dataType : "JSON",
+					url : "/CPQA_AntiMoney/login",
+					async : false,
+					data : {
+						"header" : header1,
+						"body" : body1
+					},
+					success : function(data) { */
+						var data = JSON.parse(questJson);
+						console.log("questlist["+JSON.stringify(data)+"]");
+						var result = data.body;
+						if (result.respCode == "0000") {
+							//alert("success");
+							$("#collectInfoDiv").hide();
+							var html = "";
+							var step = "";
+							var jsonArray = result.questsList;
+							if (null != jsonArray && jsonArray.length >= 1) {
+								for (var i = 0; i < jsonArray.length; i++) {
+									if (i == jsonArray.length - 1) {
+										step = "交卷";
+									} else {
+										step = "下一步";
+									}
+									var type = jsonArray[i].type;
+									var contents = jsonArray[i].content;
+									var content = contents.split("&");
+									var no = jsonArray[i].no;
+									var inputType = "radio";
+									if (1 == type) {
+										inputType = "checkbox";
+									}
+									html = html
+											+ "<div" + " id='"+ i +"' style='display:none;'>"
+											+ "<p>" + no + ":"
+											+ jsonArray[i].title + "</p>";
+									for (var k = 0; k < content.length - 1; k++) {
+										if (2 == type) {
+											html = html + "<ul onclick='ifffd(this)' class='ifff'><input type='"
+													+ inputType + "' value='"
+													+ content[k].split("|")[0]
+													+ "' name='" + i
+													+"' style='display:none;'>"
+													+ content[k].split("|")[1]
+													+ "<span></span>"
+													+ "</ul>";
+										} else {
+											html = html + "<ul onclick='ifffd(this)' class='ifff'><input type='"
+													+ inputType + "' value='"
+													+ content[k].split("|")[0]
+													+ "' name='" + i +"' style='display:none;'>"
+													+ content[k].split("|")[0]
+													+ "<span>  </span>"
+													+ content[k].split("|")[1]
+													+ "<span></span>"
+													+ "</ul>";
+										}
+
+									}
+									html = html + "<div id='div-btn_'"+i+"''>";
+									//隐藏上一步按钮
+									/* if (i != 0) {
+										html = html
+												+ "<button id='btn-ans_'"
+												+ i
+												+ "' type='button' onclick='getForntShow("
+												+ i + ","
+												+ (jsonArray.length - 1) + ","
+												+ JSON.stringify(result)
+												+ ")'>上一步</button>";
+									} */
+
+									html = html
+											+ "<button id='btn-ans_'"
+											+ i
+											+ "' type='button' onclick='getNextShow("
+											+ i + "," + (jsonArray.length - 1)
+											+ "," + JSON.stringify(result)
+											+ ")'>" + step + "</button>"
+											+ "</div>" + "</div>";
+								}
+							} else {
+								html = html + "<p>未查询到数据</p>"
+							}
+							$("#answerDiv").html(html);
+							$("#answerDiv").show();
+							$("#0").attr("style", "display:block");
+						} else {
+							alert("fail");
+						}
+					/* } */
+				/* }); */
+	}
+	//获取上一页  .
+	function getForntShow(i, j, result) {
+		if (i <= j) {
+			$("#" + i).attr("style", "display:none");
+			$("#" + (i - 1)).attr("style", "display:block");
+		}
+	}
+	//获取下一页 .
+	function getNextShow(i, j, result) {
+		//校验参与答题人员是否选择答案，如果没选择答案，让答题人员去选择答案；
+		var jsonArray = result.questsList;
+		var answerTmp = [];
+		var type = jsonArray[i].type;
+		if (1 == type) {
+			var checkAnswer = $("input[name='" + i + "']:checked")
+					.each(function() {
+						answerTmp.push($(this).val());
+					});
+		} else {
+			answerTmp.push($("input[name='" + i + "']:checked").val());
+		}
+		if(1 == type && answerTmp.length == 0){
+			alert("请先选择答案!");
+			return;
+		}else{
+			if("undefined"== "" + answerTmp[0]){
+				alert("请先选择答案!");
+				return;
+			}
+		}
+		//答题人员已经选择了答案
+/* 		if (i < j) {
+			$("#" + i).attr("style", "display:none");
+			$("#" + (i + 1)).attr("style", "display:block");
+		} else { */
+			var quests = [];
+
+			/* for (var i = 0; i < jsonArray.length; i++) { */
+				var answer = [];
+				var type = jsonArray[i].type;
+				if (1 == type) {
+					var checkAnswer = $("input[name='" + i + "']:checked")
+							.each(function() {
+								answer.push($(this).val());
+							});
+				} else {
+					answer.push($("input[name='" + i + "']:checked").val());
+				}
+
+				var json = {
+					"question_id" : jsonArray[i].question_id,
+					"replyAnswer" : JSON.stringify(answer),
+					"no" : jsonArray[i].no,
+					"title" : jsonArray[i].title,
+					"content" : jsonArray[i].content,
+					"answer" : jsonArray[i].answer,
+					"type" : jsonArray[i].type,
+					"score" : jsonArray[i].score
+				};
+				quests.push(json);
+/* 			} */
+			var mobile_no = result.mobile_no;
+			var sex = result.sex;
+			var age = result.age;
+			var job = result.job;
+			var test_id = result.test_id;
+
+			var header = {};
+			header.encoding = "UTF-8";
+			header.signature = "";
+			var body = {};
+			body.mobile_no = mobile_no;
+			body.sex = sex;
+			body.age = age;
+			body.job = job;
+			body.test_id = test_id;
+			body.ReqTime = getNowTime();
+			body.questsList = JSON.stringify(quests);
+			var header1 = JSON.stringify(header);
+			var body1 = JSON.stringify(body);
+
+			/* $.ajax({
+				type : "post",
+				dataType : "JSON",
+				url : "/CPQA_AntiMoney/score",
+				async : false,
+				data : {
+					"header" : header1,
+					"body" : body1
+				},
+				success : function(data) { */
+					var data = JSON.parse(scoreJson);
+					console.log("score["+JSON.stringify(data)+"]");
+					var result = data.body;
+					if (result.respCode == "0000") {
+						//alert("success分数为:"+result.score);
+						alert("恭喜您，您答对了");
+						if (i < j) {
+							$("#" + i).attr("style", "display:none");
+							$("#" + (i + 1)).attr("style", "display:block");
+						} else {
+							$("#" + j).attr("style", "display:none");
+							var score = result.score;
+							var html = "<h1>谢谢您的参与！</h1><h3>您的得分：" + score
+									+ "0分</h3>";
+							$("#thanksDiv").html(html);
+						}
+					} else {
+						//alert("fail分数为:"+result.score);
+						alert("对不起，您答错了");
+						return;
+					}
+			/* 	}
+			}); */
+//		}
+	}
+	//点击参与答题按钮事件 .
+	function jbox() {
+		$("#log").hide();
+		$("#otherbox").hide();
+		
+		$("#answerDiv1").show();
+	}
+	function join() {
+		$("#log").hide();		
+		$("#collectInfoDiv").show();
+	}
+	//点击了解答题规则 .
+	function ruleHref() {
+		$("#log").hide();
+		$("#rule").show();
+	}
+	//点击我知道了 .
+	function know() {
+		$("#rule").hide();
+		$("#collectInfoDiv").show();
+	}
+	//信息采集页返回到首页 .
+	function getHeadShow() {
+		$("#collectInfoDiv").hide();
+		$("#log").show();
+	}
+	//手机号码校验 .
+	function valitMobile() {
+		var mobile = $("#mobile_no").val();
+		var phone = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+		if (mobile.length != 11 || !phone.test(mobile)) {
+			$("#mobile_error").html("手机号码错误，请重新输入");
+			return;
+		} else {
+			$("#mobile_error").html("");
+			//根据手机号码联想出用户的其他信息
+			/* var header = {};
+			header.encoding = "UTF-8";
+			header.signature = "";
+			var body = {};
+			body.ReqTime = getNowTime();
+			body.mobile_no = mobile;
+			var header1 = JSON.stringify(header);
+			var body1 = JSON.stringify(body);
+
+			$.ajax({
+						type : "post",
+						dataType : "JSON",
+						url : "/CPQA_AntiMoney/getUserInfo",
+						async : false,
+						data : {
+							"header" : header1,
+							"body" : body1
+						},
+						success : function(data) {
+							var result = data.body;
+							if (result.respCode == "0000") {
+								alert("success");
+								var mobile_no = result.mobile_no;
+								var sex = result.sex;
+								var age = result.age;
+								var job = result.job;
+								var sexHtml = "";
+								if("0" == ""+sex){
+									sexHtml =  sexHtml + "<option value='0' selected='selected'>男</option>"
+												+ " <option value='1'>女</option> ";
+								}else{
+									sexHtml =  sexHtml + "<option value='0'>男</option>"
+									+ " <option value='1'  selected='selected'>女</option> ";
+								}
+								$("#sex").html(sexHtml);
+							} else {
+								alert("fail");
+								return;
+							}
+						}
+					}); */
+		}
+	}
+	//年龄校验 .
+	function valitAge() {
+		var age = $("#age").val();
+		var ageRex = /^(?:[1-9][0-9]?|1[01][0-9]|100)$/;
+		if (!ageRex.test(age)) {
+			$("#age_error").html("年龄错误，请重新输入");
+			return;
+		} else {
+			$("#age_error").html("");
+		}
+	}
+	//登录校验
+	function valitLogin(mobile_no,age,logFlag){
+		var phone = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+		if (mobile_no.length != 11 || !phone.test(mobile_no)) {
+			logFlag = "false";
+		}
+		/* var ageRex = /^(?:[1-9][0-9]?|1[01][0-9]|100)$/;
+		if (!ageRex.test(age)) {
+			logFlag = "false";
+		} */
+		return logFlag;
+	}
+	//格式化时间 .
+	function dateFtt(fmt, date) {
+		var o = {
+			"M+" : date.getMonth() + 1, //月份   
+			"d+" : date.getDate(), //日   
+			"h+" : date.getHours(), //小时   
+			"m+" : date.getMinutes(), //分   
+			"s+" : date.getSeconds(), //秒   
+			"q+" : Math.floor((date.getMonth() + 3) / 3), //季度   
+			"S" : date.getMilliseconds()
+		//毫秒   
+		};
+		if (/(y+)/.test(fmt))
+			fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "")
+					.substr(4 - RegExp.$1.length));
+		for ( var k in o)
+			if (new RegExp("(" + k + ")").test(fmt))
+				fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k])
+						: (("00" + o[k]).substr(("" + o[k]).length)));
+		return fmt;
+	}
+	//获取当前时间 .
+	function getNowTime() {
+		var myDate = new Date(); //获取系统当前时间
+		var fmt = dateFtt("yyyyMMddhhmmss", myDate);
+		return fmt;
+	}
+</script>
+</head>
+<body>
+	<div id="log">
+		<div class="log_page1">	
+			<h2 id="ruleHref" onclick="ruleHref()">活动规则</h2>
+			<p>为进一步向社会公众普及洗钱和反洗钱知识，提高社会公众防范洗钱风险的意识和能力，上海银联电子支付服务有限公司组织了本次反洗钱有奖答题活动。旨在通过有奖答题形式，调动社会公众参与学习反洗钱知识的积极性，掌握洗钱和反洗钱的基本常识，增强反洗钱防范风险意识。</p>
+			<h1 id="join" onclick="join()"><img src="skin/btn01.png"></h1>
+		</div>
+	</div>
+	<div id="otherbox" style="display: none;">
+		<div class="log_page3">
+			<div class="innerbox">
+				<h3>&nbsp;</h3>
+				<div class="content">
+					<div class="lst lsts">
+						您了解反洗钱吗？（单选）
+					</div>
+					<div class="lst lstlist">
+						<div class="ttschecked">
+							<div>
+								熟知
+							</div>
+							<input type="radio" name="aaaa" style="display: none;">
+						</div>
+					    <div class="ttschecked">
+					    	<div>
+								一般
+							</div>
+					    	<input type="radio" name="aaaa" style="display: none;">
+					    </div>
+					    <div class="ttschecked">
+					    	<div>
+								第一次听说
+							</div>
+					    	<input type="radio" name="aaaa" style="display: none;">
+					    </div>
+					</div>
+					<div class="lst lsts">
+						您通过什么渠道了解反洗钱？（多选）
+					</div>
+					<div class="lstother">
+						<ul>
+							<li class="ts" onclick="ttcheckedmn(this)">
+								<div>
+									单位工作接触
+								</div>
+								<input type="radio"  style="display: none;">
+							</li>
+							<li class="tt" style="display: none;" onclick="ttcheckedmp(this)">
+								<div>
+									单位工作接触
+								</div>
+								<input type="radio" checked="checked" style="display: none;">
+							</li>
+						</ul>
+						<ul>
+							<li class="ts" onclick="ttcheckedmn(this)">
+								<div>
+									看到反洗钱宣传
+								</div>
+								<input type="radio"  style="display: none;">
+							</li>
+							<li class="tt" style="display: none;" onclick="ttcheckedmp(this)">	
+								<div>
+									看到反洗钱宣传
+								</div>
+								<input type="radio" checked="checked" style="display: none;">
+							</li>
+						</ul>
+						<ul>
+							<li class="ts" onclick="ttcheckedmn(this)">
+								<div>
+									听朋友说
+								</div>
+								<input type="radio"  style="display: none;">
+							</li>
+							<li class="tt" style="display: none;" onclick="ttcheckedmp(this)">
+								<div>
+									听朋友说
+								</div>
+								<input type="radio" checked="checked" style="display: none;">
+							</li>
+						</ul>
+					</div>
+					<div class="lst lsts">
+						您觉得洗钱和你的生活有关吗？（单选）
+					</div>
+					<div class="lst lstlist">
+						<div class="ttschecked" >
+							<div>
+								有关
+							</div>
+							<input type="radio" name="bbbb" style="display: none;">
+						</div>
+					    <div class="ttschecked" >
+					    	<div>
+					    		无关
+					    	</div>
+					    	<input type="radio" name="bbbb" style="display: none;">
+					    </div>
+					    <div class="ttschecked">
+					    	<div>
+					    		不清楚
+					    	</div>
+					    	<input type="radio" name="bbbb" style="display: none;">
+					    </div>
+					</div>
+					
+				</div>
+				<!-- <input type="button" onclick="getHeadShow()" value="首页" /><br /> -->
+				<input type="button" onclick="jbox()" value="下一步" />	
+			</div>	
+		</div>
+	</div>
+	<div id="rule">
+		<div class="log_page2">
+			<div class="innerbox">
+				<div class="title">活动规则</div>
+				<div class="content">
+					<div>活动时间 <br />
+  2019年12月1日&#8212;2019年12月10日 <br />
+  参与方式 <br />
+  点击链接，录入个人手机号及相关信息后参与答题 <br />
+  活动规则 <br />
+  1、参与答题活动用户共需回答10道反洗钱相关知识问题，答对一题得10分，答错不得分，满分100分。每位用户（手机号）可多次登录答题，但仅以第一次答题计分结果作为评奖依据。 <br />
+  2、本次活动奖励名额共计1000名，每位获奖者可获得10元手机话费充值奖励，奖励将于答题活动结束后的5个工作日内完成发放。 <br />
+  3、评奖规则：奖励名额确定采取按照参与者答题得分、答题时长和答题完成顺序综合排序。对于得分相同的用户，按答题时长排序，若答题时长也相同，以完成答题先后顺序排名，选取前1000名获奖者。 <br />
+  <strong>4</strong><strong>、为了确保奖励发放，参与活动用户同意我司采集用户手机号码、性别、所在行业和年龄等个人信息并授权我司将采集的用户手机号码提供给话费充值合作方进行话费充值。</strong><strong> </strong><br />
+  5、本次活动由  主办，上海银联电子支付服务有限公司协办，联系电话：（9:00&#8212;17:30）或在微信公众号留言。 
+</div>
+				</div>
+				<p id="know" onclick="know()">同意</p>
+			</div>	
+		</div>
+	</div>
+	<div id="collectInfoDiv">
+		<div class="log_page3">
+			<div class="innerbox">
+				<h3>&nbsp;</h3>
+				<div class="content">
+					<div class="lst">
+						<div class="tt">手机号:</div>
+						<input type="text" name="mobile_no" value="" placeholder="请输入参与人手机号" id="mobile_no"
+						onblur="valitMobile();" />
+						<span id="mobile_error"></span>
+					</div>
+					<div class="lst">
+						<div class="tt">性别:</div>
+						<select name="sex" id="sex" style="display: none;">
+							<option value="男" selected="selected">男</option>
+							<option value="女" >女</option>
+						</select>
+						<div class="tttext tttexts" id="sexer">男</div>
+						<!-- 年龄:<input type="text" name="age" value="" id="age"
+						onblur="valitAge();" /><span id="age_error"></span><br />  -->
+					</div>
+					<div class="lst">
+						<div class="tt">年龄:</div>
+						<select name="age" id="age" style="display: none;">
+							<option value="20岁以下(不含20岁)" selected="selected">20岁以下(不含20岁)</option>
+						    <option value="20岁至30岁(不含30岁)" >20岁至30岁(不含30岁)</option>
+						    <option value="30岁至40岁(不含40岁)" >30岁至40岁(不含40岁)</option>
+						    <option value="40岁至50岁(不含50岁)" >40岁至50岁(不含50岁)</option>
+						    <option value="50岁至60岁(不含60岁)" >50岁至60岁(不含60岁)</option>
+						    <option value="60岁以上(含60岁)" >60岁以上(含60岁)</option>
+						</select>
+						<div class="tttext tttexts" id="ageer">20岁以下(不含20岁)</div>
+					</div>
+					<div class="lst">
+						<div class="tt">职业:</div>
+						<select name="job" id="job" style="display: none;">
+							<option value="学生" selected="selected">学生</option>
+						    <option value="农林牧渔" >农林牧渔</option>
+						    <option value="采矿制造业" >采矿制造业</option>
+						    <option value="批发零售及服务业" >批发零售及服务业</option>
+						    <option value="金融业" >金融业</option>
+						    <option value="房地产业" >房地产业</option>
+						    <option value="科学研究和技术服务业" >科学研究和技术服务业</option>
+						    <option value="公用事业" >公用事业</option>
+						    <option value="文化、体育和娱乐业" >文化、体育和娱乐业</option>
+					    </select>
+					    <div class="tttext" id="tttext">请选择</div>
+					</div>
+				</div>
+				<!-- <input type="button" onclick="getHeadShow()" value="首页" /><br /> -->
+				<input type="button" onclick="collectInfo1()" value="下一步" />	
+			</div>	
+		</div>
+	</div>
+	<div id="answerDiv" class="answerDiv" ></div>
+	<div id="answerDiv1"  class="answerDiv" style="display: none;">
+		<div class="btnbox" onclick="answerDiv1(this)">
+			<img src="skin/btn02.png">
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>1. 国务院反洗钱主管部门是（）</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">A. 中国人民银行
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">B. 中国证监会
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="C" name="0" style="display:none;">C. 中国银保监会
+			</ul>
+		</div>
+		<div onclick="answerDiv1(this)">
+			<button type="button"  >下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>2．客户身份资料，自业务关系结束当年或者一次性交易记账当年计起至少保存（）年</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">A. 6年
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">B. 5年
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="C" name="0" style="display:none;">C. 10年
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>3.《中华人民共和国反洗钱法》在（      ） 正式实施</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">A．2006年1月1日
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">B．2006年3月1日
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="C" name="0" style="display:none;">C．2007年1月1日
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>4.《中华人民共和国反洗钱法》提到洗钱的上游犯罪有（）种</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">A.1
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">B.4 
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="C" name="0" style="display:none;">C.7 
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>5.反洗钱义务主体在与客户的业务关系存续期间，应当采取()客户身份识别措施</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">A.一次性的
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">B.间隔的 
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="C" name="0" style="display:none;">C.持续的 
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>6.客户先前提交身份证明文件已过有效期，客户没有在合理期限内更新且没有提出合理理由的，反洗钱义务主体有权（）</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">A.继续为客户办理业务
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">B.中止为客户办理业务
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="C" name="0" style="display:none;">C.有权更新资料 
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>7. 现金大额交易报告的起点是当日单笔或者累计交易人民币（）万</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">A.五万
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">B.十万 
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="C" name="0" style="display:none;">C.一万 
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>8.以下属于大额外汇资金交易的是（）</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">A.个人当天存款1万美元
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">B.个人当天转账8万美元 
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="C" name="0" style="display:none;">C.个人当天取款5万港元 
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="D" name="0" style="display:none;">D.个人当天转账20万港元
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>9.客户通过境外银行发生的大额交易，由（）报告</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">A.境外开卡行
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">B.收单机构
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="C" name="0" style="display:none;">C.银联 
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>10.被冻结资产的所有人、控制人或管理人对采取的冻结措施有异议的，可以向资产所在地（）提出异议。</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">A.县级工商局
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">B.县级公安机关
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="C" name="0" style="display:none;">C.市级人民银行 
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div class="btnbox" onclick="answerDiv1(this)">
+			<img src="skin/btn04.png">
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>1.金融行动特别工作组简称为FATF，是国际上最具影响力的政府间反洗钱和反恐怖融资组织。</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">对
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">错
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>2.洗钱通常经过以下三个阶段：放置阶段、转移阶段、归并阶段。</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">对
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">错
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>3.我国负责大额和可疑交易报告的接收与分析单位是中国反洗钱监分析中心完成。</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">对
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">错
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>4. 客户的交易记录，自交易记账当年计起至少保存5年</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">对
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">错
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>5. 银行及其工作人员应当对报告可疑交易予以保密，不得违反规定向客户和其他人员提供</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">对
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">错
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>6. 任何单位和个人发现洗钱活动，有权向反洗钱主管部门或者公安机关举报。接受举报的机关应当对举报人和举报内容保密</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">对
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">错
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>7. 金融机构应当在大额交易发生之日起5日内以电子方式提交大额交易报告</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">对
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">错
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>8. 证券公司与客户进行金融交易并通过银行账户划转款项的，由银行机构提交大额交易报告</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">对
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">错
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>9. 国务院反洗钱行政主管部门发现涉嫌恐怖主义融资的，可以依法进行调查，采取冻结措施。</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">对
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">错
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>10. 履行反洗钱义务的机构及其工作人员依法提交大额交易和可疑交易报告，受法律保护</p>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="A" name="0" style="display:none;">对
+			</ul>
+			<ul onclick="ifffd(this)" class="ifff">
+				<input type="radio" value="B" name="0" style="display:none;">错
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div class="btnbox" onclick="answerDiv1(this)">
+			<img src="skin/btn03.png">
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>1.以下哪种犯罪是《反洗钱法》提出的上游犯罪（）</p>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="A" style="display:none;">A.贪污贿赂犯罪
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="B" style="display:none;">B.黑社会性质的组织犯罪
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="C" style="display:none;">C.恐怖活动犯罪
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="D" style="display:none;">D. 盗窃罪
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>2.金融机构在设置风险评估指标是应考虑（）等维度</p>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="A" style="display:none;">A.国家/地域
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="B" style="display:none;">B.客户
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="C" style="display:none;">C.产品
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="D" style="display:none;">D. 服务
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>3.非自然人客户的“受益所有人”是指（     ）</p>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="A" style="display:none;">A.非自然人客户的实际控制人
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="B" style="display:none;">B.虽未被客户披露，但实际控制着金融交易过程的自然人
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="C" style="display:none;">C.最终享有相关经济利益的自然人
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="D" style="display:none;">D. 贷款银行
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>4.外国政要既包括其本人，也包括（）</p>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="A" style="display:none;">A.父母
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="B" style="display:none;">B.子女
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="C" style="display:none;">C.配偶
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="D" style="display:none;">D. 有共同利益关系的其他自然人
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>5.国办函[2017]84号文提出的三反监管体制机制，是指（  ）</p>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="A" style="display:none;">A.反洗钱
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="B" style="display:none;">B.反恐怖融资
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="C" style="display:none;">C.反逃税
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="D" style="display:none;">D. 发诈骗
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>6.自然人客户的身份基本信息包括 ()等</p>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="A" style="display:none;">A.客户的姓名、性别和国籍
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="B" style="display:none;">B.客户的职业
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="C" style="display:none;">C.客户身份证件种类、号码和有效期限
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="D" style="display:none;">D. 客户住所或工作单位地址
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>7.下列哪种情况出现时，应重新识别客户？（）</p>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="A" style="display:none;">A.客户行为异常
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="B" style="display:none;">B.客户有洗钱嫌疑
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="C" style="display:none;">C.客户提出销户
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="D" style="display:none;">D. 先前获得的客户身份资料存在疑点
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>8.从融资目的来划分，恐怖融资的表现形式分为()</p>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="A" style="display:none;">A.主体为恐怖组织、恐怖分子自身的融资行为
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="B" style="display:none;">B.主体为他人或其他组织的融资行为
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="C" style="display:none;">C.资助恐怖主义或恐怖活动的融资行为
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="D" style="display:none;">D. 资助恐怖组织或恐怖分子的融资行为
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>9.自然人银行账户与其他银行账户发生的跨境款项划大额交易报告的起点是（）</p>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="A" style="display:none;">A.人民币20万
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="B" style="display:none;">B.外币等值1万
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="C" style="display:none;">C.人民币50万
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="D" style="display:none;">D. 外币等值10
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<div class="answerDiv" style="display: none;">
+		<div>
+			<p>10.反洗钱义务主体应当登记受益所有人的（）</p>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="A" style="display:none;">A.姓名
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="B" style="display:none;">B.地址
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="C" style="display:none;">C.直系亲属
+			</ul>
+			<ul onclick="ifff(this)" class="ifff">
+				<input type="radio" value="D" style="display:none;">D.身份证件的种类、号码和有效期限
+			</ul>
+		</div>
+		<div  onclick="answerDiv1(this)">
+			<button type="button">下一步</button>
+		</div>
+	</div>
+	<!-- <div id="thanksDiv"></div>-->
+	<div id="thanksDiv1" style="display: none;"><h1>谢谢您的参与！</h1><h3>您的得分：100分</h3></div>
+	<div id="ageerul" class="tttextul" style="display: none;">
+		<ul>
+			<li>20岁以下(不含20岁)</li>
+			<li>20岁至30岁(不含30岁)</li>
+			<li>30岁至40岁(不含40岁)</li>
+			<li>40岁至50岁(不含50岁)</li>
+			<li>50岁至60岁(不含60岁)</li>
+			<li>60岁以上(含60岁)</li>
+		</ul>
+	</div>
+	<div id="sexerul" class="tttextul" style="display: none;">
+		<ul>
+			<li>男</li>
+			<li>女</li>
+		</ul>
+	</div>
+	<div id="tttextul" class="tttextul" style="display: none;">
+		<ul>
+			<li>学生</li>
+			<li>农林牧渔</li>
+			<li>采矿制造业</li>
+			<li>批发零售及服务业</li>
+			<li>金融业</li>
+			<li>房地产业</li>
+			<li>科学研究和技术服务业</li>
+			<li>公用事业</li>
+			<li>文化、体育和娱乐业</li>
+		</ul>
+	</div>
+</body>
+</html>

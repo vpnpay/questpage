@@ -1,0 +1,63 @@
+html{ font-family:PingFangTC-Regular, "微软雅黑";}
+*{margin:0; padding:0;}
+body {color:#000; background:#fff;}
+li{list-style-type:none;}
+img{vertical-align:top;border:0;}
+ol,ul {list-style:none;}
+h1,h2,h3,h4,h5,h6 {font-weight:normal;}
+address,cite,code,em,th {font-weight:normal; font-style:normal;}
+#log .log_page1{ background:url(./fxqbj01.png); height: 26.68rem; width: 15rem; margin: auto; background-size: 15rem; }
+#log .log_page1 #ruleHref{ padding-top: 10rem; text-align: center; color: #fff; font-size: 0.55rem; text-decoration: underline;}
+#log .log_page1 p{ font-size: 0.6rem; color: #3E3A39; width: 12.5rem; margin:1.4rem auto; }
+#join{ width: 4.02rem; height: 4.02rem; margin: auto; }
+#rule .log_page2{ background:url(./fxqbj02.png); height: 26.68rem; width: 15rem; margin: auto; background-size: 15rem; display: flex; justify-content: center; align-items: center; }
+#rule .log_page2 .innerbox{ width: 13.5rem; height: 23.6rem; border-radius: 0.5rem; background: rgba(255,255,255,0.8); }
+#rule .log_page2 .innerbox .title{ font-size: 0.65rem; height: 3rem; display: flex; justify-content: center; align-items: center; }
+#rule .log_page2 .innerbox .content{ font-size: 0.5rem; height: 16rem; overflow: scroll; font-weight: 100; color: #000; width: 11rem; margin: auto; margin-bottom: 0.4rem; }
+#rule .log_page2 .innerbox #know{ font-size: 0.55rem; color: #009DE6; width: 9rem; height: 1.6rem; margin: auto; display: flex; justify-content: center; align-items: center; border-radius: 0.8rem; border:1px solid #009DE6; }
+#collectInfoDiv .log_page3{background:url(./fxqbj02.png); height: 26.68rem; width: 15rem; margin: auto; background-size: 15rem; display: flex; justify-content: center; align-items: center;}
+#collectInfoDiv .log_page3 .innerbox{ width: 13.8rem; height: 23.6rem; font-size: 0.6rem; color: #666; border-radius: 0.5rem; background: rgba(255,255,255,0.8); }
+#collectInfoDiv .log_page3 .innerbox h3{height: 3rem; border-bottom: 1px solid #C4C4C4;}
+#collectInfoDiv .log_page3 .innerbox .content{height: 16rem; overflow: auto; margin-bottom: 0.4rem; }
+#collectInfoDiv .log_page3 .innerbox input[type=button]{font-size: 0.55rem; background: #fff; color: #009DE6; width: 11rem; height: 1.6rem; margin: auto; display: flex; justify-content: center; align-items: center; border-radius: 0.8rem; border:1px solid #009DE6; }
+#collectInfoDiv .log_page3 .innerbox .content .lst{ width: 12.5rem; height: 2.2rem;border-bottom: 1px solid #C4C4C4; margin: auto; display: flex; align-items: center; position: relative; }
+#collectInfoDiv .log_page3 .innerbox .content .lst .tt{ width: 4.5rem; }
+#collectInfoDiv .log_page3 .innerbox .content .lst .tttext{ background: url(./191125.png) 100% 50% no-repeat; padding-right: 0.5rem; color: #757575; }
+#collectInfoDiv .log_page3 .innerbox .content .lst .tttexts{ color: #000; }
+.tttextul{ display: flex; flex-direction: column-reverse; position: absolute; left: 0; top: 0; height: 100%; width:15rem; margin: auto; background: rgba(0,0,0,0.5); z-index: 3; }
+.tttextul ul{background:rgba(255,255,255,1); color: #666;}
+.tttextul ul li{ height: 2rem; border-bottom: 1px solid #C4C4C4; width: 13rem; margin: auto;  display: flex; align-items: center; justify-content: center; font-size: 0.54rem; }
+#collectInfoDiv .log_page3 .innerbox .content .lst #mobile_error{ position: absolute; left: 4.5rem; bottom: 0.1rem; color: #ff6666; font-size: 0.44rem; }
+#collectInfoDiv .log_page3 .innerbox .content .lst input[type=text]{border:0; color: #000;font-size: 0.55rem; outline: none; background: none;}
+#collectInfoDiv .log_page3 .innerbox .content .lst select{border:0; color: #666;font-size: 0.55rem; outline: none;background: none;}
+.answerDiv{ font-size: 0.65rem; background:url(./fxqbj02.png); height: 26.68rem; width: 15rem; margin: auto; background-size: 15rem; }
+.answerDiv button[type=button]{ width: 12rem; height: 2rem; border-radius: 0.8rem; background: #009DE6;color: #fff; font-size: 0.7rem; margin:2.2rem auto 0 auto; display: flex; justify-content: center; align-items: center;  }
+.answerDiv p{ color: #6A3906;text-align: center; padding-top: 7rem; padding-bottom: 1.5rem;width: 80%; margin: auto; font-size: 0.7rem; }
+.answerDiv input[tpye=radio]{ margin-left:2rem; }
+.answerDiv ul{ width: 10rem; padding:0 0.5rem; height: 1.8rem; border-radius: 0.2rem; display: flex; justify-content: center; align-items: center; border:2px solid #666; margin:0.7rem auto; }
+.answerDiv ul.ifffds{ border:2px solid #048FBF; background: no-repeat url(./iffdbg.png) left top; background-size: 1.6rem; }
+.answerDiv .btnbox{ width: 15rem;height: 100%; display: flex; justify-content: center; align-items: center; }
+
+
+#thanksDiv{ position: absolute; left: 0; top: 0; width: 100%; height: 1rem; text-align: center;  }
+#thanksDiv h1{ font-size: 0.9rem; color: #009DE6;margin-top: 8rem; margin-bottom: 1rem; }
+#thanksDiv h3{  font-size: 0.6rem; }
+
+#thanksDiv1{ background:url(./fxqbj02.png);background-size: 15rem;  height: 26.68rem; width: 15rem; margin: auto; text-align: center;  }
+#thanksDiv1 h1{ font-size: 0.9rem; color: #009DE6;padding-top: 8rem; padding-bottom: 1rem; }
+#thanksDiv1 h3{  font-size: 0.6rem; }
+
+#otherbox .log_page3{background:url(./fxqbj02.png); height: 26.68rem; width: 15rem; margin: auto; background-size: 15rem; display: flex; justify-content: center; align-items: center;}
+#otherbox .log_page3 .innerbox{ width: 13.8rem; height: 23.6rem; font-size: 0.6rem; color: #666; border-radius: 0.5rem; background: rgba(255,255,255,0.8); }
+#otherbox .log_page3 .innerbox h3{height: 3rem; border-bottom: 1px solid #C4C4C4;}
+#otherbox .log_page3 .innerbox .content{height: 16rem; overflow:auto; margin-bottom: 0.4rem; }
+#otherbox .log_page3 .innerbox input[type=button]{font-size: 0.55rem; background: #fff; color: #009DE6; width: 11rem; height: 1.6rem; margin: auto; display: flex; justify-content: center; align-items: center; border-radius: 0.8rem; border:1px solid #009DE6; }
+#otherbox .log_page3 .innerbox .content .lst{ width: 12.5rem; height: 2.2rem;border-bottom: 1px solid #C4C4C4; margin: auto; display: flex; align-items: center; position: relative; }
+#otherbox .log_page3 .innerbox .content .lsts{border:0;}
+#otherbox .log_page3 .innerbox .content .lstlist{ align-items: flex-start; }
+#otherbox .log_page3 .innerbox .content .lst .ttschecked{ color: #000; width: 3.7rem; padding-left: 0.8rem; background: url(./19112502.png) 0% 50% no-repeat; background-size:0.5rem;  }
+#otherbox .log_page3 .innerbox .content .lstother{width: 12.5rem; height: 3.2rem;border-bottom: 1px solid #C4C4C4;margin: auto;}
+#otherbox .log_page3 .innerbox .content .lstother ul{float: left; }
+#otherbox .log_page3 .innerbox .content .lstother .ts{ color: #000; width: 5rem;  padding-left: 0.8rem; margin-bottom: 0.3rem; background: url(./19112503.png) 0% 50% no-repeat; background-size:0.5rem;  }
+#otherbox .log_page3 .innerbox .content .lst .ttchecked{color: #000; width: 3.7rem; padding-left: 0.8rem; background: url(./19112502a.png) 0% 50% no-repeat; background-size:0.5rem; }
+#otherbox .log_page3 .innerbox .content .lstother .tt{color: #000; width: 5rem;  padding-left: 0.8rem; margin-bottom: 0.3rem; background: url(./19112503a.png) 0% 50% no-repeat; background-size:0.5rem; }
